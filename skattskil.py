@@ -59,7 +59,7 @@ def makeLine(bankanumer, hofudbnr, skuldabnr, kennitala, gjalddagi,
         toNumber(9, verdbaetur.replace('.', '')),
         toNumber(9, drvextir),
         toNumber(9, kostnadur),
-        toNumber(9, eftirstodvar),
+        toNumber(9, eftirstodvar.replace('.', '')),
         toChar(10, athugasemdir)
     ]
     return "".join(lineParts)
