@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-
-import csv
-import sys
-
+# -*- coding: utf8 -*-
+#
 # Leiðbeiningar:
 #
 # Passa að dálkar í Excel skjalinu heiti nákvæmlega:
@@ -10,20 +8,39 @@ import sys
 # GREIDSLUDAG, AFBORGUN, VEXTIR, VERDBAETUR, DRVEXTIR,
 # KOSTNADUR, EFTIRSTODVAR, ATHUGASEMDIR
 #
-# Röð dálka skiptir ekki máli. Það mega vera aðrir dálkar líka í skjalinu.
+# Röð dálka skiptir ekki máli. Það mega vera aðrir dálkar líka í skjalinu. En
+# allir þessir dálkar þurfa að vera, og þurfa að heita nákvæmlega eins og að
+# ofan, öll nöfn í hástöfum. Ath. að stafsetning á sumum dálkanöfnunum er
+# óvenjuleg.
 #
-# GJALDDAGI og GREIDSLUDAG þurfa nú þegar að vera á forminu YYYYMMDD.
+# GJALDDAGI og GREIDSLUDAG þurfa nú þegar að vera á forminu YYYYMMDD í Excel
+# skjalinu - forritið sér ekki um að breyta úr hefðbundnu dagsetningarsniði.
 #
 # Aðra dálka þarf ekki að núllfylla, forritið sér um það.
 #
-# Til að keyra:
+# Til að keyra í vafra:
+# 1. Fara hingað í vafra: http://www.compileonline.com/execute_python_online.php
+# 2. Opna þessa skrá (sem þú ert að lesa) í Notepad og kópera allan texta
+# 3. Paste-a allan texta inn í flipann sem heitir main.py á vefsíðunni, í
+#    staðinn fyrir það sem er þar fyrir
+# 4. Í Excel, gera File / Save As... og velja Comma Separated Values, vista
+#    þá skrá og opna hana síðan með Notepad, kópera allan texta í henni
+# 5. Paste-a allan texta inn í flipann sem heitir STDIN á vefsíðunni
+# 6. Ýta á Execute takkann á vefsíðunni (lengst til vinstri, við hlið flipa)
+# 7. Niðurstaðan birtist í "Result" flipanum hægra megin.
+#
+# Til að keyra á eigin tölvu:
+# 0. Setja upp Python3 héðan: https://www.python.org/downloads/
 # 1. Í Excel, gera File / Save As... og velja Comma Separated Values, vista
 #    sem t.d. inntak.csv í sömu möppu og þetta forrit.
 # 2. Opna 'cmd' forritið í Windows.
 # 3. Gera 'cd' inn í möppuna þar sem þetta forrit er
-# 4. Gera: python3 skattskil.py inntak.csv > uttak.txt
-#
-# Nú ætti útakið að vera í skránni uttak.txt í sömu möppu.
+# 4. Gera: python3 skattskil.py < inntak.csv > uttak.txt
+# 5. Nú ætti útakið að vera í skránni uttak.txt í sömu möppu.
+
+
+import csv
+import sys
 
 
 def padFront(num, char, msg):
@@ -74,12 +91,8 @@ def makeLineFromDict(dict):
     )
 
 
-def run(filename):
-    with open(filename, 'r') as f:
-        reader = csv.DictReader(f, dialect='excel', delimiter=';')
-        dictList = []
-        for line in reader:
-            print(makeLineFromDict(line))
-
 if __name__ == '__main__':
-    run(sys.argv[1])
+    reader = csv.DictReader(sys.stdin, dialect='excel', delimiter=';')
+    dictList = []
+    for line in reader:
+        print(makeLineFromDict(line))
